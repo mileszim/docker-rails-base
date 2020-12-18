@@ -1,5 +1,6 @@
 FROM ruby:2.7.2-alpine
 LABEL maintainer="georg@ledermann.dev"
+LABEL maintainer="miles@zim.dev"
 
 # Add basic packages
 RUN apk add --no-cache \
@@ -9,7 +10,8 @@ RUN apk add --no-cache \
       nodejs \
       yarn \
       tzdata \
-      file
+      file \
+      libsodium
 
 WORKDIR /app
 

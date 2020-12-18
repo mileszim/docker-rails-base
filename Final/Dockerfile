@@ -1,11 +1,13 @@
 FROM ruby:2.7.2-alpine
 LABEL maintainer="georg@ledermann.dev"
+LABEL maintainer="miles@zim.dev"
 
 # Add basic packages
 RUN apk add --no-cache \
       postgresql-client \
       tzdata \
-      file
+      file \
+      libsodium
 
 # Configure Rails
 ENV RAILS_LOG_TO_STDOUT true

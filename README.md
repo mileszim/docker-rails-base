@@ -1,4 +1,4 @@
-![Build images](https://github.com/ledermann/docker-rails-base/workflows/Build%20images/badge.svg)
+![Build images](https://github.com/mileszim/docker-rails-base/workflows/Build%20images/badge.svg)
 
 # DockerRailsBase
 
@@ -56,7 +56,7 @@ See [Builder/Dockerfile](./Builder/Dockerfile)
 The `Final` stage builds the production image, which includes just the bare minimum.
 
 - Based on [ruby:2.7.2-alpine](https://github.com/docker-library/ruby/blob/master/2.7/alpine3.12/Dockerfile)
-- Adds packages needed for production: postgresql-client, tzdata, file
+- Adds packages needed for production: postgresql-client, tzdata, file, libsodium
 - Via ONBUILD triggers it mainly copies the app and gems from the `Builder` stage
 
 See [Final/Dockerfile](./Final/Dockerfile)
@@ -72,8 +72,8 @@ Using [Dependabot](https://dependabot.com/), every updated Ruby gem or Node modu
 #### Build Docker image
 
 ```Dockerfile
-FROM ledermann/rails-base-builder:2.7.2-alpine AS Builder
-FROM ledermann/rails-base-final:2.7.2-alpine
+FROM mileszim/rails-base-builder:2.7.2-alpine AS Builder
+FROM mileszim/rails-base-final:2.7.2-alpine
 USER app
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 ```
