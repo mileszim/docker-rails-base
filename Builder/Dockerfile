@@ -11,7 +11,8 @@ RUN apk add --no-cache \
       yarn \
       tzdata \
       file \
-      libsodium
+      libsodium \
+      aws-cli
 
 WORKDIR /app
 
