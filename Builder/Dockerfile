@@ -50,13 +50,9 @@ ONBUILD COPY . /app
 #      if the master key is missing. Because on CI there is no master key,
 #      we hide the credentials while compiling assets (by renaming them before and after)
 #
-ONBUILD RUN mv config/credentials.yml.enc config/credentials.yml.enc.bak 2>/dev/null || true
-ONBUILD RUN RAILS_ENV=production \
-            # must be 16 bytes
-            # SECRET_KEY_BASE=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \
-            RAILS_MASTER_KEY=dummy \
-            bundle exec rails assets:precompile
-ONBUILD RUN mv config/credentials.yml.enc.bak config/credentials.yml.enc 2>/dev/null || true
+# ONBUILD RUN mv config/credentials.yml.enc config/credentials.yml.enc.bak 2>/dev/null || true
+ONBUILD RUN RAILS_ENV=production bundle exec rails assets:precompile
+# ONBUILD RUN mv config/credentials.yml.enc.bak config/credentials.yml.enc 2>/dev/null || true
 
 # Remove folders not needed in resulting image
 ONBUILD RUN rm -rf node_modules tmp/cache vendor/bundle test spec

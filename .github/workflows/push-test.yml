@@ -1,0 +1,46 @@
+name: Build test images
+on:
+  push:
+    branches:
+      - test
+
+env:
+  TAG_NAME: 2.7.2-alpine
+  USERNAME: mileszim
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build builder image
+        working-directory: ./Builder
+        run: docker build -t builder .
+
+      - name: Build final image
+        working-directory: ./Final
+        run: docker build -t final .
+
+      - name: Push the images to GitHub Container Registry
+        if: github.ref == 'refs/heads/test'
+        run: |
+          echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+
+          docker tag builder ghcr.io/${{ env.USERNAME }}/rails-base-builder:test
+          docker push ghcr.io/${{ env.USERNAME }}/rails-base-builder:test
+
+          docker tag final ghcr.io/${{ env.USERNAME }}/rails-base-final:test
+          docker push ghcr.io/${{ env.USERNAME }}/rails-base-final:test
+
+      - name: Push the images to Docker Hub
+        if: github.ref == 'refs/heads/master'
+        run: |
+          echo ${{ secrets.DOCKER_TOKEN }} | docker login -u mileszim --password-stdin
+
+          docker tag builder ${{ env.USERNAME }}/rails-base-builder:test
+          docker push ${{ env.USERNAME }}/rails-base-builder:test
+
+          docker tag final ${{ env.USERNAME }}/rails-base-final:test
+          docker push ${{ env.USERNAME }}/rails-base-final:test

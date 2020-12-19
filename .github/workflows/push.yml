@@ -1,5 +1,8 @@
 name: Build images
-on: push
+on:
+  push:
+    branches:
+      - main
 
 env:
   TAG_NAME: 2.7.2-alpine
