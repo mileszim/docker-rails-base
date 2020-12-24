@@ -4,6 +4,10 @@ on:
     branches:
       - master
       - main
+    paths-ignore:
+      - '.gitignore'
+      - 'README.md'
+      - 'Builder/node_modules/**'
 
 env:
   TAG_NAME: 2.7.2-alpine

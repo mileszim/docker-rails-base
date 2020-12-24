@@ -9,21 +9,21 @@ Building Docker images usually takes a long time. This repo contains base images
 
 When using the official Ruby image, building a Docker image for a typical Rails application requires lots of time for installing dependencies - mainly OS packages, Ruby gems, Ruby gems with native extensions (Nokogiri etc.) and Node modules. This is required every time the app needs to be deployed to production.
 
-I was looking for a way to reduce this time, so I created base images that contain most of the dependencies used in my applications.
+In order to reduce this time, we can use these base images that contain most of the dependencies used in an applications.
 
-And while I'm at it, I also moved as much as possible from the app-specific Dockerfile into the base image by using [ONBUILD](https://docs.docker.com/engine/reference/builder/#onbuild) triggers. This makes the Dockerfile in my apps small and simple.
+As much as possible is moved from the app-specific Dockerfile into the base image by using [ONBUILD](https://docs.docker.com/engine/reference/builder/#onbuild) triggers. This makes the Dockerfile small and simple.
 
 
 ## Performance
 
-I compared building times using a typical Rails application. This is the result on my local machine:
+Compared building times using a typical Rails application. This is the result on a local machine:
 
 - Based on official Ruby image: **4:50 min**
 - Based on DockerRailsBase: **1:57 min**
 
 As you can see, using DockerRailsBase is more than **2 times faster** compared to the official Ruby image. It saves nearly **3min** on every build.
 
-Note: Before I started timing, the base image was not available on my machine, so it was downloaded first, which took some time. If the base image is already available, the building time is only 1:18min (**3 times faster**).
+Note: Before the author started timing, the base image was not available on their machine, so it was downloaded first, which took some time. If the base image is already available, the building time is only 1:18min (**3 times faster**).
 
 
 ## How?
@@ -44,11 +44,11 @@ The `Builder` stage installs Ruby gems and Node modules. It also includes Git, N
 
 - Based on [ruby:2.7.2-alpine](https://github.com/docker-library/ruby/blob/master/2.7/alpine3.12/Dockerfile)
 - Adds packages needed for installing gems and compiling assets: Git, Node.js, Yarn, PostgreSQL client and build tools
-- Adds some standard Ruby gems (Rails 6.1 etc., see [Gemfile](./Builder/Gemfile))
-- Adds some standard Node modules (Vue.js etc., see [package.json](./Builder/package.json))
+- Adds some standard Ruby gems (Rails 6.1 etc., see [Gemfile](https://github.com/mileszim/docker-rails-base/blob/master/Builder/Gemfile))
+- Adds some standard Node modules (Vue.js etc., see [package.json](https://github.com/mileszim/docker-rails-base/blob/master/Builder/package.json))
 - Via ONBUILD triggers it installs missing gems and Node modules, then compiles the assets
 
-See [Builder/Dockerfile](./Builder/Dockerfile)
+See [Builder/Dockerfile](https://github.com/mileszim/docker-rails-base/blob/master/Builder/Dockerfile)
 
 
 ### Final stage
@@ -59,7 +59,7 @@ The `Final` stage builds the production image, which includes just the bare mini
 - Adds packages needed for production: postgresql-client, tzdata, file, libsodium
 - Via ONBUILD triggers it mainly copies the app and gems from the `Builder` stage
 
-See [Final/Dockerfile](./Final/Dockerfile)
+See [Final/Dockerfile](https://github.com/mileszim/docker-rails-base/blob/master/Final/Dockerfile)
 
 
 ### Staying up-to-date
@@ -78,7 +78,7 @@ USER app
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 ```
 
-Yes, this is the complete Dockerfile of the Rails app. It's so simple because the work is done by ONBUILD triggers.
+Yes, this is the complete Dockerfile of the Rails app. It's simple because the work is done by ONBUILD triggers.
 
 
 #### Continuous integration (CI)
