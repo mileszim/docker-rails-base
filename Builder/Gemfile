@@ -68,16 +68,16 @@ gem 'sorcery'
 gem 'rack-cors', require: 'rack/cors'
 
 # Block & throttle abusive requests (https://github.com/kickstarter/rack-attack)
-# gem 'rack-attack'
+gem 'rack-attack'
 
 # Rack middleware for defining a canonical host name. (http://github.com/tylerhunt/rack-canonical-host)
-# gem 'rack-canonical-host'
+gem 'rack-canonical-host'
 
 # Simple authorization solution for Rails. (https://github.com/../pundit)
 gem 'pundit'
 
 # A gem adding sorting, reordering capabilities to an active_record model, allowing it to act as a list (http://github.com/brendon/acts_as_list)
-# gem 'acts_as_list'
+gem 'acts_as_list'
 
 # Turbolinks makes navigating your web application faster (https://github.com/turbolinks/turbolinks)
 gem 'turbolinks', '~> 5'
@@ -95,16 +95,16 @@ gem 'sidekiq'
 gem 'geocoder'
 
 # Collection of SEO helpers for Ruby on Rails. (http://github.com/kpumuk/meta-tags)
-# gem 'meta-tags'
+gem 'meta-tags'
 
 # Intelligent search made easy with Rails and Elasticsearch (https://github.com/ankane/searchkick)
-# gem 'searchkick'
+gem 'searchkick'
 
 # Inertia adapter for Rails (https://github.com/inertiajs/inertia-rails)
-# gem 'inertia_rails'
+gem 'inertia_rails'
 
 # Markdown that smells nice (http://github.com/vmg/redcarpet)
-# gem 'redcarpet'
+gem 'redcarpet'
 
 # A comprehensive slugging and pretty-URL plugin. (https://github.com/norman/friendly_id)
-# gem 'friendly_id'
+gem 'friendly_id'
