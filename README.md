@@ -1,6 +1,6 @@
 ![Build images](https://github.com/mileszim/docker-rails-base/workflows/Build%20images/badge.svg)
 
-# DockerRailsBase
+# docker-rails-base
 
 Building Docker images usually takes a long time. This repo contains base images with preinstalled dependencies for [Ruby on Rails](https://rubyonrails.org/), so building a production image will be **2-3 times faster**.
 
