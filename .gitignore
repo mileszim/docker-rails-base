@@ -1,1 +1,2 @@
-/Builder/node_modules
+/Builder/node_modules/tmp
+.tool-versions

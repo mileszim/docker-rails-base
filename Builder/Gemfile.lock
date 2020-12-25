@@ -84,7 +84,7 @@ GEM
     bootsnap (1.5.1)
       msgpack (~> 1.0)
     builder (3.2.4)
-    cable_ready (4.4.5)
+    cable_ready (4.4.6)
       rails (>= 5.2)
     concurrent-ruby (1.1.7)
     connection_pool (2.2.3)
@@ -177,7 +177,6 @@ GEM
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
     pagy (3.10.0)
-    paint (2.2.1)
     pg (1.2.3)
     public_suffix (4.0.6)
     puma (5.1.1)
@@ -270,8 +269,8 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    stimulus_reflex (3.3.0)
-      cable_ready (>= 4.3.0)
+    stimulus_reflex (3.4.0)
+      cable_ready (>= 4.4)
       nokogiri
       rack
       rails (>= 5.2)
@@ -296,12 +295,11 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.7)
-    unicode-display_width (1.7.0)
-    view_component (2.23.2)
+    view_component (2.24.0)
       activesupport (>= 5.0.0, < 7.0)
-    view_component_reflex (2.6.2)
+    view_component_reflex (3.0.4)
       rails (>= 5.2, < 7.0)
-      stimulus_reflex (>= 3.3.0, < 3.4)
+      stimulus_reflex (>= 3.4.0)
       view_component
     webpacker (5.2.1)
       activesupport (>= 5.2)
@@ -311,57 +309,53 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    whirly (0.2.6)
-      unicode-display_width (~> 1.1)
     zeitwerk (2.4.2)
 
 PLATFORMS
-  ruby
+  x86_64-darwin-20
 
 DEPENDENCIES
-  acts_as_list
-  aws-sdk-kms
-  aws-sdk-s3
-  bootsnap (>= 1.4.4)
-  friendly_id
-  geocoder
-  hiredis
-  image_processing (~> 1.2)
-  inertia_rails
-  kms_encrypted
-  lockbox
-  lograge
-  meta-tags
-  pagy
-  paint
+  acts_as_list (~> 1.0)
+  aws-sdk-kms (~> 1.40)
+  aws-sdk-s3 (~> 1.87)
+  bootsnap (~> 1.5.1)
+  friendly_id (~> 5.4)
+  geocoder (~> 1.6)
+  hiredis (~> 0.6.3)
+  image_processing (~> 1.12)
+  inertia_rails (~> 1.8)
+  kms_encrypted (~> 1.2)
+  lockbox (~> 0.6.1)
+  lograge (~> 0.11.2)
+  meta-tags (~> 2.14)
+  pagy (~> 3.10)
   pg (>= 0.18, < 2.0)
-  puma (~> 5.0)
-  pundit
-  rack-attack
-  rack-canonical-host
-  rack-cors
+  puma (~> 5.1)
+  pundit (~> 2.1)
+  rack-attack (~> 6.3)
+  rack-canonical-host (~> 1.0)
+  rack-cors (~> 1.1)
   rails (~> 6.1.0)
-  rbnacl
-  redcarpet
-  redis (~> 4.0)
-  redis-session-store
-  rest-client
-  sass-rails (>= 6)
-  searchkick
-  sidekiq
-  sorcery
-  stimulus_reflex
-  strip_attributes
-  trestle
-  turbolinks (~> 5)
-  turbolinks_render
-  view_component
-  view_component_reflex (~> 2.6)
-  webpacker (~> 5.0)
-  whirly
+  rbnacl (~> 7.1)
+  redcarpet (~> 3.5)
+  redis (~> 4.2)
+  redis-session-store (~> 0.11.3)
+  rest-client (~> 2.1)
+  sass-rails (~> 6.0)
+  searchkick (~> 4.4)
+  sidekiq (~> 6.1.2)
+  sorcery (~> 0.15.0)
+  stimulus_reflex (~> 3.4)
+  strip_attributes (~> 1.11)
+  trestle (~> 0.9.4)
+  turbolinks (~> 5.2)
+  turbolinks_render (~> 0.9.20)
+  view_component (~> 2.24)
+  view_component_reflex (~> 3.0)
+  webpacker (~> 5.2.1)
 
 RUBY VERSION
-   ruby 2.7.2p137
+   ruby 3.0.0p-1
 
 BUNDLED WITH
-   2.1.4
+   2.2.2
