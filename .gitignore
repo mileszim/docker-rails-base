@@ -1,1 +1,3 @@
 /Builder/node_modules
+.tool-versions
+.DS_Store

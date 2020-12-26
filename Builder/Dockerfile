@@ -1,24 +1,26 @@
-FROM ruby:2.7.2-alpine
+FROM ruby:2.7.2
 LABEL maintainer="georg@ledermann.dev"
 LABEL maintainer="miles@zim.dev"
 
 # Add basic packages
-RUN apk add --no-cache \
-      build-base \
-      postgresql-dev \
-      git \
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update -qq \
+ && apt-get install -y \
+      build-essential \
+      libpq-dev \
+      postgresql \
       nodejs \
       yarn \
       tzdata \
-      file \
-      libsodium \
-      aws-cli
+      libsodium-dev \
+      awscli
 
 WORKDIR /app
 
 # Install standard Node modules
 COPY package.json yarn.lock /app/
-RUN yarn install --frozen-lockfile
+RUN yarn install --no-lockfile
 
 # Install standard gems
 COPY Gemfile* /app/
