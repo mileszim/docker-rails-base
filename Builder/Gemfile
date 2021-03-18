@@ -1,38 +1,38 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.2'
+ruby "3.0.0"
 
 ##
 # Base
 #
-gem "rails",             "~> 6.1.0"         # Full-stack web application framework. (https://rubyonrails.org)
-gem "pg",                ">= 0.18", "< 2.0" # Pg is the Ruby interface to the {PostgreSQL RDBMS}[http://www.postgresql.org/] (https://github.com/ged/ruby-pg)
-gem "puma",              "~> 5.1"           # Puma is a simple, fast, threaded, and highly concurrent HTTP 1.1 server for Ruby/Rack applications (http://puma.io)
-gem "sidekiq",           "~> 6.1.2"         # Simple, efficient background processing for Ruby (http://sidekiq.org)
-gem "turbolinks",        "~> 5.2"           # Turbolinks makes navigating your web application faster (https://github.com/turbolinks/turbolinks)
-gem "turbolinks_render", "~> 0.9.20"        # Use Rails render with Turbolinks (https://github.com/jorgemanrubia/turbolinks_render)
-gem "bootsnap",          "~> 1.5.1",        # Boot large ruby/rails apps faster (https://github.com/Shopify/bootsnap)
+gem "rails",             "~> 6.1.3"  # Full-stack web application framework. (https://rubyonrails.org)
+gem "pg",                "~> 1.1"    # Pg is the Ruby interface to the {PostgreSQL RDBMS}[http://www.postgresql.org/] (https://github.com/ged/ruby-pg)
+gem "puma",              "~> 5.1"    # Puma is a simple, fast, threaded, and highly concurrent HTTP 1.1 server for Ruby/Rack applications (http://puma.io)
+gem "sidekiq",           "~> 6.1.2"  # Simple, efficient background processing for Ruby (http://sidekiq.org)
+gem "turbolinks",        "~> 5.2"    # Turbolinks makes navigating your web application faster (https://github.com/turbolinks/turbolinks)
+gem "turbolinks_render", "~> 0.9.20" # Use Rails render with Turbolinks (https://github.com/jorgemanrubia/turbolinks_render)
+gem "bootsnap",          "~> 1.5.1", # Boot large ruby/rails apps faster (https://github.com/Shopify/bootsnap)
   require: false
 
 ##
 # Redis
 #
-gem "redis",               "~> 4.2"
+gem "redis",               "~> 4.2",   require: ['redis', 'redis/connection/hiredis']
 gem "hiredis",             "~> 0.6.3"  # Native Bindings
-gem "redis-session-store", "~> 0.11.3"
+gem "redis-session-store", "~> 0.11.3" # A drop-in replacement for e.g. MemCacheStore to store Rails sessions (and Rails sessions only) in Redis.
 
 ##
 # Networking
 #
-gem "rack-attack",         "~> 6.3" # Block & throttle abusive requests (https://github.com/kickstarter/rack-attack)
+gem "rack-attack",         "~> 6.5" # Block & throttle abusive requests (https://github.com/kickstarter/rack-attack)
 gem "rest-client",         "~> 2.1" # Simple HTTP and REST client for Ruby, inspired by microframework syntax for specifying actions. (https://github.com/rest-client/rest-client)
 gem "rack-canonical-host", "~> 1.0" # Rack middleware for defining a canonical host name. (http://github.com/tylerhunt/rack-canonical-host)
 
 ##
 # Auth
 #
-gem "sorcery",             "~> 0.15.0" # Flexible authentication solution for Rails with Warden (https://github.com/heartcombo/devise)
+gem "sorcery",             "~> 0.16.0" # Flexible authentication solution for Rails with Warden (https://github.com/heartcombo/devise)
 gem "pundit",              "~> 2.1"    # Simple authorization solution for Rails. (https://github.com/../pundit)
 gem "rack-cors",           "~> 1.1",   # Middleware for enabling Cross-Origin Resource Sharing in Rack apps (https://github.com/cyu/rack-cors)
   require: "rack/cors"
@@ -40,31 +40,33 @@ gem "rack-cors",           "~> 1.1",   # Middleware for enabling Cross-Origin Re
 ##
 # Assets
 #
-gem "aws-sdk-s3",       "~> 1.87"  # AWS SDK for Ruby - Amazon S3 (https://github.com/aws/aws-sdk-ruby)
+gem "aws-sdk-s3",       "~> 1.92"  # AWS SDK for Ruby - Amazon S3 (https://github.com/aws/aws-sdk-ruby)
 gem "sass-rails",       "~> 6.0"   # Sass adapter for the Rails asset pipeline. (https://github.com/rails/sass-rails)
 gem "webpacker",        "~> 5.2.1" # Use webpack to manage app-like JavaScript modules in Rails (https://github.com/rails/webpacker)
 # gem "image_processing", "~> 1.12"  # High-level wrapper for processing images for the web with ImageMagick or libvips. (https://github.com/janko/image_processing)
+
 
 ##
 # Logging
 #
 gem "lograge",               "~> 0.11.2" # Tame Rails' multi-line logging into a single line per request (https://github.com/roidrage/lograge)
-# gem "rails_semantic_logger", "~> 4.4"    # Rails Semantic Logger replaces the Rails default logger with Semantic Logger (https://github.com/rocketjob/rails_semantic_logger)
+# gem "rails_semantic_logger", "~> 4.5"    # Rails Semantic Logger replaces the Rails default logger with Semantic Logger (https://github.com/rocketjob/rails_semantic_logger)
 
 ##
 # StimulusJS
 #
 gem "stimulus_reflex",       "~> 3.4"
-gem "view_component",        "~> 2.24", require: "view_component/engine"
-gem "view_component_reflex", "~> 3.0"
+gem "view_component",        "~> 2.28", require: "view_component/engine"
+gem "view_component_reflex", "~> 3.1.8"
 
 ##
 # Encryption
 #
 gem "rbnacl",        "~> 7.1"
-gem "aws-sdk-kms",   "~> 1.40"
-gem "lockbox",       "~> 0.6.1"
+gem "aws-sdk-kms",   "~> 1.43"
+gem "lockbox",       "~> 0.6.2"
 gem "kms_encrypted", "~> 1.2"
+gem "bcrypt",        "~> 3.1"
 
 ##
 # Misc
@@ -72,16 +74,16 @@ gem "kms_encrypted", "~> 1.2"
 gem "geocoder",         "~> 1.6"   # Complete geocoding solution for Ruby. (http://www.rubygeocoder.com)
 gem "meta-tags",        "~> 2.14"  # Collection of SEO helpers for Ruby on Rails. (http://github.com/kpumuk/meta-tags)
 gem "searchkick",       "~> 4.4"   # Intelligent search made easy with Rails and Elasticsearch (https://github.com/ankane/searchkick)
-gem "inertia_rails",    "~> 1.8"   # Inertia adapter for Rails (https://github.com/inertiajs/inertia-rails)
+gem "inertia_rails",    "~> 1.9"   # Inertia adapter for Rails (https://github.com/inertiajs/inertia-rails)
 gem "redcarpet",        "~> 3.5"   # Markdown that smells nice (http://github.com/vmg/redcarpet)
 gem "friendly_id",      "~> 5.4"   # A comprehensive slugging and pretty-URL plugin. (https://github.com/norman/friendly_id)
 gem "strip_attributes", "~> 1.11"  # Whitespace cleanup for ActiveModel attributes (https://github.com/rmm5t/strip_attributes)
-gem "pagy",             "~> 3.10"  # The Ultimate Pagination Ruby Gem (https://github.com/ddnexus/pagy)
-gem "trestle",          "~> 0.9.4" # A modern, responsive admin framework for Ruby on Rails (https://www.trestle.io)
+gem "pagy",             "~> 4.1"   # The Ultimate Pagination Ruby Gem (https://github.com/ddnexus/pagy)
+gem "trestle",          "~> 0.9.5" # A modern, responsive admin framework for Ruby on Rails (https://www.trestle.io)
 gem "acts_as_list",     "~> 1.0"   # A gem adding sorting, reordering capabilities to an active_record model, allowing it to act as a list (http://github.com/brendon/acts_as_list)
 
 ##
 # Dev/Cli
 #
-gem "paint",  "~> 2.2"
-gem "whirly", "~> 0.2.6"
+# gem "paint",  "~> 2.2"
+# gem "whirly", "~> 0.2.6"
