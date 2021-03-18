@@ -1,4 +1,5 @@
-FROM ruby:2.7.2-alpine
+# syntax = docker/dockerfile:1.0-experimental
+FROM ruby:3.0.0-alpine
 LABEL maintainer="georg@ledermann.dev"
 LABEL maintainer="miles@zim.dev"
 
@@ -51,9 +52,16 @@ ONBUILD COPY . /app
 #      if the master key is missing. Because on CI there is no master key,
 #      we hide the credentials while compiling assets (by renaming them before and after)
 #
-# ONBUILD RUN mv config/credentials.yml.enc config/credentials.yml.enc.bak 2>/dev/null || true
-ONBUILD RUN RAILS_ENV=production bundle exec rails assets:precompile
-# ONBUILD RUN mv config/credentials.yml.enc.bak config/credentials.yml.enc 2>/dev/null || true
+ONBUILD RUN mv config/credentials.yml.enc config/credentials.yml.enc.bak 2>/dev/null || true
+ONBUILD RUN mv config/credentials config/credentials.bak 2>/dev/null || true
+ONBUILD RUN --mount=type=secret,id=npmrc,dst=/root/.npmrc \
+           --mount=type=secret,id=yarnrc,dst=/root/.yarnrc.yml \
+           RAILS_ENV=production \
+           SECRET_KEY_BASE=dummy \
+           RAILS_MASTER_KEY=dummy \
+           bundle exec rails assets:precompile
+ONBUILD RUN mv config/credentials.yml.enc.bak config/credentials.yml.enc 2>/dev/null || true
+ONBUILD RUN mv config/credentials.bak config/credentials 2>/dev/null || true
 
 # Remove folders not needed in resulting image
-ONBUILD RUN rm -rf node_modules tmp/cache vendor/bundle test spec
+ONBUILD RUN rm -rf node_modules tmp/cache vendor/bundle test spec app/javascript app/packs

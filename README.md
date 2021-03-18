@@ -16,7 +16,7 @@ As much as possible is moved from the app-specific Dockerfile into the base imag
 
 ## Performance
 
-Compared building times using a typical Rails application. This is the result on a local machine:
+Compare building times using a typical Rails application. This is the result on a local machine:
 
 - Based on official Ruby image: **4:50 min**
 - Based on DockerRailsBase: **1:57 min**
@@ -30,7 +30,7 @@ Note: Before the author started timing, the base image was not available on thei
 
 This repo is based on the following assumptions:
 
-- Your app is compatible with [Ruby 2.7.2 for Alpine Linux](https://github.com/docker-library/ruby/blob/master/2.7/alpine3.12/Dockerfile)
+- Your app is compatible with [Ruby 3.0.0 for Alpine Linux](https://github.com/docker-library/ruby/blob/master/3.0/alpine3.13/Dockerfile)
 - Your app uses Ruby on Rails 6.0 or 6.1
 - Your app uses PostgreSQL
 - Your app installs Node modules with [Yarn](https://yarnpkg.com/)
@@ -42,10 +42,10 @@ It uses [multi-stage building](https://docs.docker.com/develop/develop-images/mu
 
 The `Builder` stage installs Ruby gems and Node modules. It also includes Git, Node.js and some build tools - all we need to compile assets.
 
-- Based on [ruby:2.7.2-alpine](https://github.com/docker-library/ruby/blob/master/2.7/alpine3.12/Dockerfile)
+- Based on [ruby:3.0.0-alpine](https://github.com/docker-library/ruby/blob/master/3.0/alpine3.13/Dockerfile)
 - Adds packages needed for installing gems and compiling assets: Git, Node.js, Yarn, PostgreSQL client and build tools
 - Adds some standard Ruby gems (Rails 6.1 etc., see [Gemfile](https://github.com/mileszim/docker-rails-base/blob/master/Builder/Gemfile))
-- Adds some standard Node modules (Vue.js etc., see [package.json](https://github.com/mileszim/docker-rails-base/blob/master/Builder/package.json))
+- Adds some standard Node modules (Webpacker etc., see [package.json](https://github.com/mileszim/docker-rails-base/blob/master/Builder/package.json))
 - Via ONBUILD triggers it installs missing gems and Node modules, then compiles the assets
 
 See [Builder/Dockerfile](https://github.com/mileszim/docker-rails-base/blob/master/Builder/Dockerfile)
@@ -55,7 +55,7 @@ See [Builder/Dockerfile](https://github.com/mileszim/docker-rails-base/blob/mast
 
 The `Final` stage builds the production image, which includes just the bare minimum.
 
-- Based on [ruby:2.7.2-alpine](https://github.com/docker-library/ruby/blob/master/2.7/alpine3.12/Dockerfile)
+- Based on [ruby:3.0.0-alpine](https://github.com/docker-library/ruby/blob/master/3.0/alpine3.13/Dockerfile)
 - Adds packages needed for production: postgresql-client, tzdata, file, libsodium
 - Via ONBUILD triggers it mainly copies the app and gems from the `Builder` stage
 
@@ -72,13 +72,52 @@ Using [Dependabot](https://dependabot.com/), every updated Ruby gem or Node modu
 #### Build Docker image
 
 ```Dockerfile
-FROM mileszim/rails-base-builder:2.7.2-alpine AS Builder
-FROM mileszim/rails-base-final:2.7.2-alpine
+FROM mileszim/rails-base-builder:3.0.0-alpine AS Builder
+FROM mileszim/rails-base-final:3.0.0-alpine
 USER app
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 ```
 
 Yes, this is the complete Dockerfile of the Rails app. It's simple because the work is done by ONBUILD triggers.
+
+Now build the image:
+
+```bash
+$ docker build .
+```
+
+#### Building the Docker image with BuildKit
+
+[BuildKit](https://docs.docker.com/develop/develop-images/build_enhancements/) requires a little [workaround](https://github.com/moby/buildkit/issues/816) to trigger the ONBUILD statements. Add a `COPY` statement to the `Dockerfile`:
+
+```Dockerfile
+FROM mileszim/rails-base-builder:3.0.0-alpine AS Builder
+FROM mileszim/rails-base-final:3.0.0-alpine
+
+# Workaround to trigger Builder's ONBUILDs to finish:
+COPY --from=Builder /etc/alpine-release /tmp/dummy
+
+USER app
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+```
+
+Now you can build the image with BuildKit:
+
+```
+docker buildx build .
+```
+
+You can use private npm/Yarn packages by mounting the config file:
+
+```
+docker buildx build --secret id=npmrc,src=$HOME/.npmrc .
+```
+
+or
+
+```
+docker buildx build --secret id=yarnrc,src=$HOME/.yarnrc.yml .
+```
 
 
 #### Continuous integration (CI)

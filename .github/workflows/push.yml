@@ -10,7 +10,7 @@ on:
       - 'Builder/node_modules/**'
 
 env:
-  TAG_NAME: 2.7.2-alpine
+  TAG_NAME: 3.0.0-alpine
   USERNAME: mileszim
 
 jobs:
